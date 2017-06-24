@@ -1,0 +1,87 @@
+<div class="container" ng-init="submitApiUrl('https://api-stg.bulkwhiz.com/sub_categories/Soda/skus')">
+  <section>
+    <div class="header" ng-init="showApiurl=false">
+      <div class="title-bar" ng-hide="showApiurl">
+        <div class="title-no-button clearfix">
+          <h1>{{metadata.title}}</h1>
+          <p>{{items.lenght}} {{metadata.title}} products available</p>
+        </div>
+        <div class="api-button-open clearfix">
+          <button class="api-button" ng-click="showApiurl=true">Link</button>
+        </div>
+      </div>
+      <div class="api-input" ng-show="showApiurl">
+        <div class="title-no-button clearfix">
+          <p id="top-p">API SUBCATEGORY LINK</p>
+          <form ng-submit="submitApiUrl(apiUrl)">
+            <input type="text" ng-model="apiUrl">
+          </form>
+        </div>
+        <div class="api-button-close clearfix">
+          <button class="api-button" ng-click="showApiurl=false">X</button>
+        </div>
+      </div>
+    </div>
+    <div class="router-filter">
+      <p>What type of soda are you looking for</p>
+      <ul class = "clearfix">
+        <li ng-repeat="filter in routerFilters">
+          <button ng-click="routerFilterValue(filter); ">
+            {{filter}}
+          </button>
+        </li>
+        <li>
+          <button ng-click="routerFilterValue('all')">Show all</button>
+        </li>
+      </ul>
+    </div>
+    <hr>
+    <div class="filter-filter">
+      <p>Filter by: </p>
+      <ul class = "clearfix">
+        <li ng-repeat="filter in filterFilters">
+          <button href="#" ng-click="filterFilterValue(filter)" >
+            {{filter}}
+          </button>
+        </li>
+        <li>
+          <button type="button" name="button" ng-click="filterFilterValue('all')">Show all</button>
+        </li>
+      </ul>
+      <hr>
+    </div>
+    <div class="item-wrapper clearfix" ng-repeat="item in items | filter: routerFilter | filter: filterFilter  " >
+      <div class="item-img">
+        <img src="{{item.photo_urls.small_square}}" >
+      </div>
+      <div class="item-info">
+        <p>{{item.properties.label}}</p>
+        <p>{{item.properties.unit_quantity}} {{item.properties.container}} x{{item.properties.pack_size}}</p>
+        <p>AED {{item.properties.sku_selling_price.toFixed(2)}} <scope> Save {{item.properties.savings}} %<scope></p>
+      </div>
+      <div class="cart-input">
+        <button ng-click="addToCart(item)">+</button>
+        <button ng-click="removeFromCart(item.id)">-</button>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="container">
+  <div class="header">
+    <div class="title-bar" >
+      <h1>Shopping Cart </h1>
+  </div>
+  <div class="item-wrapper clearfix" ng-repeat="item in shoppingCart" >
+    <div class="item-img">
+      <img src="{{item.photo_urls.small_square}}" >
+    </div>
+    <div class="item-info">
+      <p>{{item.properties.label}}</p>
+      <p>{{item.properties.unit_quantity}} {{item.properties.container}} x{{item.properties.pack_size}}</p>
+      <p>AED {{item.properties.sku_selling_price.toFixed(2)}} <scope> Save {{item.properties.savings}} %<scope></p>
+    </div>
+    <div class="cart-input">
+      <button ng-click="removeFromCart(item.id)">-</button>
+    </div>
+  </div>
+</div>
